@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chatroom</title>
+    <style>
+        #messages { height: 300px; overflow-y: scroll; }
+    </style>
+</head>
+<body>
+    <h1>Simple Chatroom</h1>
+    <div id="messages"></div>
+    <form id="messageForm">
+        <input type="text" id="message" placeholder="Type your message">
+        <button type="submit">Send</button>
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js"></script>
+    <script>
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+        const messageForm = document.getElementById('messageForm');
+        const messageInput = document.getElementById('message');
+        const messagesDiv = document.getElementById('messages');
+
+        messageForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            socket.emit('message', messageInput.value);
+            messageInput.value = '';
+        });
+
+        socket.on('message', (msg) => {
+            const newMessage = document.createElement('p');
+            newMessage.innerText = msg;
+            messagesDiv.appendChild(newMessage);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        });
+    </script>
+</body>
+</html>
