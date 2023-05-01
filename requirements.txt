@@ -1,0 +1,5 @@
+Flask==2.3.1
+Flask_SocketIO==5.3.3
+llama_cpp_python==0.1.39
+pyttsx3==2.90
+SpeechRecognition==3.10.0
